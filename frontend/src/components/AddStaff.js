@@ -27,20 +27,20 @@ const AddStaff = () => {
     }
 
     const handler = (e) => {
+        e.preventDefault();
         axios.post('http://localhost:2000/staff/add', staff)
         .then((res)=>{
             console.log(res.data);
             setMsg(res.data);
-            setStaff(initialStaff);
         })
         .catch((err)=>console.log(`Error: ${err}`));
-        e.preventDefault();
+        // setStaff(initialStaff);
     };
 
 
 
     return(
-        <Form className='text-left my-5 py-5 mx-auto rounded bg-white shadow px-md-5' style={{width: 70+'%'}}>
+        <Form className='text-left my-5 py-5 mx-auto rounded bg-white shadow px-md-5' style={{width: 70+'%'}} onSubmit={handler}>
             <h1>Add Staff</h1>
             {msg ? <Alert variant="success">{msg}</Alert> : <Alert variant="primary">please fill the form</Alert>}
             <Form.Group controlId="formBasicFirstname">
@@ -88,7 +88,7 @@ const AddStaff = () => {
                 </Form.Control>
             </Form.Group>
 
-            <Button variant="primary" type="submit" onClick={handler}>
+            <Button variant="primary" type="submit">
                 Submit
             </Button>
         </Form>

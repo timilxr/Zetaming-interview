@@ -8,13 +8,15 @@ router.route('/add').post((req, res)=>{
     const level = req.body.level;
     const class_held = req.body.class_held;
 
-    const newTeacher = new Teacher({
+    const newTeacher = 
+    new Teacher({
         staff_no,
         firstname,
         lastname,
         level,
         class_held
     });
+    // class_held !== ''? newTeacher.class_held = class_held : newTeacher; 
     console.log(newTeacher);
     newTeacher.save()
     .then(()=>res.json(`new teacher ${lastname} added successfully`))
@@ -43,11 +45,20 @@ router.route('/').get((req, res)=>{
     .then(staff=>{res.json(staff)})
     .catch(()=>{res.status(400).json('Error finding all staff'); console.log(error)});
 });
-
-router.route('/:id').get((req, res)=>{
-    Teacher.findById(id)
+router.route('/:clas').get((req, res)=>{
+    Teacher.find({class_held: req.params.clas})
     .then(staff=>{res.json(staff)})
     .catch(()=>{res.status(400).json('Error finding staff'); console.log(error)});
+});
+
+router.route('/:id').get((req, res)=>{
+    Teacher.findById(req.params.id)
+    .then((staff)=>{
+        console.log(req.params.id);
+        res.json(staff);
+        console.log(staff);
+    })
+    .catch((error)=>{res.status(400).json('Error finding staff'); console.log(error)});
 });
 
 router.route('/delete/:id').delete((req, res)=>{

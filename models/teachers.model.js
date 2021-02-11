@@ -20,8 +20,8 @@ const staffSchema = new Schema({
         required: true
     },
     class_held : {
-        type: String,
-        unique: true
+        type: String
+        // unique: true
     }
 }, {
     timestamps: true

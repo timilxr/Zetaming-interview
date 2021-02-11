@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-// import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Button, Table, Alert} from 'react-bootstrap';
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ const ViewStaff = () => {
     }, []);
 
     const delData = (g) => {
-        axios.delete(`http://localhost:2000/staff/${g}`)
+        axios.delete(`http://localhost:2000/staff/delete/${g}`)
         .then((res)=>{
             console.log(res.data);
             setMsg(res.data);
@@ -34,7 +34,8 @@ const ViewStaff = () => {
         .catch((err)=>console.log(`Error: ${err}`));
     }
     // const upData = (g) => {
-    //     return(<Redirect to={"http://localhost:3000/admin/staff/"+g} />);
+    //     console.log('done');
+    //     return(<Redirect to={"http://localhost:3000/staff/"+g} />);
     // }
 
     if (load){
@@ -49,6 +50,7 @@ const ViewStaff = () => {
                         <th>Lastname</th>
                         <th>Levels</th>
                         <th>Class Held</th>
+                        <th></th>
                         <th></th>
                         </tr>
                     </thead>
@@ -66,9 +68,13 @@ const ViewStaff = () => {
                                         <td>{value.lastname}</td>
                                         <td>Level {value.level}</td>
                                         <td>{value.class_held}</td>
-                                        {/* <td>
-                                        <Button variant="info" type="button" onClick={()=>upData(value._id)}>Edit</Button>{' '}
-                                        </td> */}
+                                        <td>
+                                        {value.class_held !== '' ? 
+                                        (<Button variant="info" type="button">
+                                            <Link to={`/staff/${value.class_held}`} className="text-white">View students</Link>
+                                        </Button>)
+                                        : ''}
+                                        </td>
                                         <td>
                                             <Button variant="danger" type="button" onClick={()=>delData(value._id)}>Delete</Button>{' '}
                                         </td>
